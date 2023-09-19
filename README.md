@@ -10,7 +10,7 @@ Final version of task list
   <li>CSS3</li>
   <li>Typescript</li>
   <li>Ionic</li>
-  <lil>Angular</li>
+  <li>Angular</li>
 </ul>
 
 <h2> Back-end </h2>
