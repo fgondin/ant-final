@@ -10,13 +10,21 @@ import { Task } from "./models/task.model";
 })
 export class HomePage {
   tasks: Task[] = [
-    {id: 0, descricao: 'Lavar a louça', status: false},
-    {id: 1, descricao: 'Passar o café', status: false},
-    {id: 2, descricao: 'Assistir aula', status: false}
+    {id: 0, description: 'Lavar a louça', status: false},
+    {id: 1, description: 'Passar o café', status: false},
+    {id: 2, description: 'Assistir aula', status: false}
   ];
 
-  constructor(private alert: AlertController, 
-    private toast: ToastController) {}
+  constructor(
+    private alert: AlertController, 
+    private toast: ToastController) {
+
+      let data = localStorage.getItem('TasksDB')
+
+      if (data != null){
+        this.tasks = JSON.parse(data);
+      }
+    }
   //Constructor é um método especial que serve para inicializar os membros da classe.
   //No angular, o construtor serve para injetar independências.
 
@@ -31,6 +39,11 @@ export class HomePage {
     TOASTSCREEN.present();
   }
 
+  getId(data: Task[]): number {
+    let size:number = (data.length) + 1;
+    return size;
+  }
+
   async updateAlert(){ 
     const ALERTSCREEN = await this.alert.create({ //propriedade "alert" sendo declarada no constructor.
       header: 'Update task?',
@@ -43,7 +56,7 @@ export class HomePage {
       ],
       buttons: [
         {
-          text: 'Cancel'
+          text: 'Cancel',
         },
         {
           text: 'Update',
@@ -61,6 +74,13 @@ export class HomePage {
     if(!form.task || form.task.trim() == ''){
       this.showToast('Please, enter a valid value');
       return;
+    }
+
+    let obj = {id: this.getId(this.tasks),
+      description: form.task,
+      status: false};
+
+      this.tasks.push(obj);
     }
   }
 }
