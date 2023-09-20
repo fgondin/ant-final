@@ -44,6 +44,8 @@ export class HomePage {
     return size;
   }
 
+  //*ALERT SECTION*
+
   async updateAlert(){ 
     const ALERTSCREEN = await this.alert.create({ //propriedade "alert" sendo declarada no constructor.
       header: 'Update task?',
@@ -67,8 +69,36 @@ export class HomePage {
       ]
     });
 
-    ALERTSCREEN.present //Para tornar o alerta visível, é necessário usar o present.
+    ALERTSCREEN.present(); //Para tornar o alerta visível, é necessário usar o present.
   }
+
+  async editAlert(task: Task){
+    const ALERTSCREEN = await this.alert.create({
+      header: 'Edit task',
+      inputs: [
+        {
+          name: 'newTask',
+          type: 'text',
+          value: task.description
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Edit',
+          handler: (form) => {
+            task.description = form.newTask;
+            localStorage.setItem('TarefasDB', JSON.stringify(this.tasks));
+          }
+        }
+      ]
+    });
+    ALERTSCREEN.present();
+  }
+
+  //*ACTIONS SECTION*
 
   updateData(form: any){
     if(!form.task || form.task.trim() == ''){
@@ -81,7 +111,24 @@ export class HomePage {
       status: false};
 
     this.tasks.push(obj);
+
+    localStorage.setItem('TarefasDB', JSON.stringify(this.tasks));
   }
+
+  eraseData(id: number){
+    let index = this.tasks.findIndex(task => task.id == id);
+    this.tasks.splice(index, 1);
+    //Splice é usado para deletar elementos de uma array.
+    
+    localStorage.setItem('TarefasDB', JSON.stringify(this.tasks));
+    this.showToast('Task removed');
+  }
+
+  changeStatus(task: Task){
+    task.status = !task.status;
+  }
+
+
 }
 
 
