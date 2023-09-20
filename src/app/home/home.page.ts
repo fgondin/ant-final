@@ -46,7 +46,7 @@ export class HomePage {
 
   //*ALERT SECTION*
 
-  async updateAlert(){ 
+  async addAlert(){ 
     const ALERTSCREEN = await this.alert.create({ //propriedade "alert" sendo declarada no constructor.
       header: 'Update task?',
       inputs: [
@@ -63,7 +63,7 @@ export class HomePage {
         {
           text: 'Update',
           handler: (form) =>{
-            this.updateData(form);
+            this.addData(form);
           }
         }
       ]
@@ -72,7 +72,7 @@ export class HomePage {
     ALERTSCREEN.present(); //Para tornar o alerta visível, é necessário usar o present.
   }
 
-  async editAlert(task: Task){
+  async updateAlert(task: Task){
     const ALERTSCREEN = await this.alert.create({
       header: 'Edit task',
       inputs: [
@@ -100,7 +100,7 @@ export class HomePage {
 
   //*ACTIONS SECTION*
 
-  updateData(form: any){
+  addData(form: any){
     if(!form.task || form.task.trim() == ''){
       this.showToast('Please, enter a valid value');
       return;
