@@ -80,9 +80,9 @@ export class HomePage {
       description: form.task,
       status: false};
 
-      this.tasks.push(obj);
-    }
+    this.tasks.push(obj);
   }
 }
+
 
 
